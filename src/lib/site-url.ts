@@ -8,7 +8,27 @@ const DEFAULT_SITE_URL = 'http://localhost:3040'
  * then to the local dev URL.
  */
 export function getSiteUrl(): string {
-  return (process.env.THALLY_SITE_URL ?? process.env.DOX_SITE_URL) ?? process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE_URL
+  // Prefer an explicitly configured URL, but treat empty/blank as absent
+  // (`??` alone would return "" and crash `new URL("")`).
+  const explicit = [
+    process.env.THALLY_SITE_URL,
+    process.env.DOX_SITE_URL,
+    process.env.NEXT_PUBLIC_SITE_URL,
+  ]
+    .map((value) => value?.trim())
+    .find((value) => value)
+  if (explicit) {
+    return /^https?:\/\//.test(explicit) ? explicit : `https://${explicit}`
+  }
+  // On Vercel, derive the URL from the platform-provided host (blank-safe).
+  const vercelHost = [
+    process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    process.env.VERCEL_URL,
+  ]
+    .map((value) => value?.trim())
+    .find((value) => value)
+  if (vercelHost) return `https://${vercelHost}`
+  return DEFAULT_SITE_URL
 }
 
 let warnedMismatch = false
