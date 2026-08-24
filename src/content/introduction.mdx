@@ -1,45 +1,64 @@
 ---
-title: Introduction
-description: Give readers a clear path from their first question to a result they can verify.
-mode: home
+title: "solctx"
 ---
 
-<Hero
-  title="Build documentation around the reader"
-  subtitle="Start with a useful first result, organize what follows, and publish every format from one reviewable source."
-  primaryLabel="Get started"
-  primaryHref="/quickstart"
-  secondaryLabel="Publish your docs"
-  secondaryHref="/guides/create-a-site"
-/>
+**Live, structured Solana devnet context for AI coding agents — over MCP.**
 
-## Build the reader journey
+solctx is a [Model Context Protocol](https://modelcontextprotocol.io) server that
+gives AI coding agents (Claude Desktop, Claude Code, and any other MCP client)
+first-class access to Solana devnet: searchable documentation, live chain state,
+canonical runnable code examples, and doc-sync status.
 
-Begin with the task that brings most readers to your documentation, then make
-the next useful step obvious.
+## Why
 
-<CardGroup cols="2">
-  <Card title="Write your quickstart" icon="party-horn" href="/quickstart">
-    Turn prerequisites, setup, one realistic task, and verification into a short path.
-  </Card>
-  <Card title="Organize your navigation" icon="grid-round" href="/customization">
-    Group related tasks and references around how people use your product.
-  </Card>
-  <Card title="Document your API" icon="code-simple" href="/api">
-    Replace `openapi.yaml` to publish browsable endpoint docs with a live playground.
-  </Card>
-  <Card title="Learn the Thally workflow" icon="wrench" href="/guides/create-a-site">
-    Create, publish, and update sites from the Cloud dashboard, the CLI, or your AI tools.
-  </Card>
-</CardGroup>
+AI agents writing Solana code work from stale, half-remembered training data.
+solctx closes that gap by exposing four focused tools an agent can call on demand
+instead of guessing.
 
-## Publish from one source
+## Tools
 
-Thally turns the same reviewed content into HTML, search, agent discovery files,
-Markdown mirrors, and a read-only MCP surface — so people and AI tools read the
-same, current answer. Add only the locales your readers need.
+| Tool | Purpose |
+| --- | --- |
+| [`get_chain_state`](/tools/get-chain-state) | Read live devnet state: slot, block height, epoch, priority fee, network status |
+| [`get_docs`](/tools/get-docs) | Search curated Solana docs — local BM25, or semantic embeddings when enabled |
+| [`get_example`](/tools/get-example) | Canonical, runnable code examples for common tasks |
+| [`get_sync_status`](/tools/get-sync-status) | When each doc section was last verified against the protocol |
 
-<Note type="info" title="Start with the product, not the template">
-  Replace this page with the questions, terminology, and workflows your readers
-  already use. Keep `docs.json` focused on the path between those tasks.
-</Note>
+## Quickstart
+
+See [docs/quickstart.md](/quickstart) for full setup. In short:
+
+```bash
+pnpm install
+pnpm build
+pnpm build:index          # write the local docs index (no API key)
+pnpm start                # MCP server on stdio
+```
+
+Then register solctx with your MCP client (see the quickstart for a Claude
+Desktop config snippet).
+
+## Documentation
+
+- [Quickstart](/quickstart)
+- [Network support](/network-support)
+- [Examples library](/examples-library)
+- [Troubleshooting](/troubleshooting)
+- [Changelog](/changelog)
+
+## Requirements
+
+- Node.js 20+
+- pnpm 9+
+
+No API keys required — doc search runs locally (BM25) and chain reads use a
+public RPC. Optionally set `OPENROUTER_API_KEY` to upgrade `get_docs` to
+semantic search (free-tier model by default).
+
+## License
+
+[MIT](https://github.com/Demiladepy/solctx/blob/main/LICENSE)
+
+---
+
+**Last synced:** 2026-08-17 (solana-web3.js@1.98.0)

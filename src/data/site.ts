@@ -160,10 +160,10 @@ const brandPresets: Record<BrandPresetKey, BrandConfig> = {
 const brandPreset: BrandPresetKey = 'primary'
 
 export const siteConfig: SiteConfig = {
-  name: 'Solctx Docs',
+  name: 'solctx',
   description:
-    'Documentation for Solctx Docs.',
-  repoUrl: '',
+    'Live, structured Solana devnet context for AI coding agents over MCP.',
+  repoUrl: 'https://github.com/Demiladepy/solctx',
   links: [
     { label: 'Get started', href: '/quickstart' },
     { label: 'Changelog', href: '/changelog' },
