@@ -39,6 +39,7 @@
             "tools/get-chain-state",
             "tools/get-docs",
             "tools/get-example",
+            "tools/get-program-addresses",
             "tools/get-sync-status"
           ]
         },
